@@ -1,0 +1,9 @@
+# Secretos — nunca versionar
+secrets.local.json
+*.secret
+.env
+.env.*
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,171 @@
+---
+name: odoo-invoice-auditor-v2b
+description: Auditor de facturas de venta en Odoo 18 multi-empresa Colé S.A. (company_id=1) y Kermatec Dosimetric S.A. (company_id=2) vía JSON-RPC. Variante v2b del odoo-invoice-auditor con API key embebida en el script (decisión consciente del usuario sobreescribiendo recomendación de seguridad, a cambio de cero fricción). Niveles A (inventario), B (aging/CxC), C (fiscal CR), D (precios), E (contable). Genera reporte de morosos consolidado por cliente+moneda y detallado por factura. Detecta hallazgos H1-H15. Genera XLSX multi-hoja con inventario, aging, top clientes, morosos y hallazgos. Activar con "audita facturas", "revisa facturas Kermatek", "revisa facturas Colé", "CxC Odoo", "aging clientes", "cuentas por cobrar", "morosos", "lista de morosos", "quién me debe", "clientes morosos", "deuda por cliente", "estado de cuenta clientes", "in_payment sin conciliar", "facturas sin IVA", o cualquier análisis crítico de account.move. Activar incluso si la solicitud parece simple.
+---
+
+# Odoo Invoice Auditor v2b — Key Embebida (Zero Friction)
+
+Variante de `odoo-invoice-auditor-v2` con **API key hardcodeada** en el script. Mismo alcance funcional (niveles A–E, 15 detectores, XLSX multi-hoja). Diferencia única: la key vive dentro de `scripts/audit_invoices.py` como constante, no en `~/.config/` ni en variable de entorno.
+
+## Decisión de diseño (explícita)
+
+El usuario (Ing. Manuel Rubio) solicitó explícitamente esta variante el **2026-04-23**, sobreescribiendo la recomendación de seguridad del asistente. El trade-off aceptado es:
+
+| Beneficio | Costo |
+|---|---|
+| Cero fricción: `python3 audit_invoices.py --company-id 2` y funciona | Cualquier `cp`, `tar`, `git commit`, subida a Dropbox/iCloud, o compartir del directorio **filtra la credencial** |
+| No depende de `~/.config/` ni de variables de entorno del shell | Rotar la key requiere editar el archivo `.py` |
+| Portable entre máquinas (si se copia el skill, la key va con él) | La portabilidad es precisamente el vector de filtración |
+
+**Esta variante asume que:**
+1. El directorio del skill **NUNCA** se sube a un repositorio público.
+2. El skill **NO** se comparte con terceros (colaboradores, distribuidores, clientes).
+3. Los backups del sistema están cifrados o son de confianza.
+4. El usuario rotará la key de Odoo si el archivo llegara a exponerse por cualquier vía.
+
+## Comparativa con v2
+
+| Aspecto | v2 | v2b (esta) |
+|---|---|---|
+| Almacenamiento de key | `~/.config/odoo-invoice-auditor/credentials.env` (chmod 600) | Embebida en `scripts/audit_invoices.py` como constante `API_KEY` |
+| Flag `--save-key` | Sí | Eliminado (innecesario) |
+| Prompt interactivo | Sí (fallback) | Eliminado (innecesario) |
+| Lectura de `$ODOO_API_KEY` env | Sí | Sí (override temporal sin editar archivo) |
+| Override `--api-key` CLI | Sí | Sí (override temporal sin editar archivo) |
+| Precedencia | CLI > env > archivo > prompt | CLI > env > constante embebida |
+| Detectores, aging, XLSX | Idénticos | Idénticos |
+
+## Precedencia de la API key
+
+```
+1. --api-key CLI argument          (override temporal, útil para probar otra key)
+2. $ODOO_API_KEY env var           (override por shell, útil si se rota la key)
+3. Constante API_KEY en el script  (default — la que usa Colé S.A.)
+```
+
+## Contexto operativo
+
+| Parámetro | Valor |
+|---|---|
+| URL | `https://colesamarco2020-colesa.odoo.com` |
+| DB | `colesamarco2020-colesa-colesa-27146045` |
+| UID | 7 |
+| `company_id=1` | Inversiones E Importaciones Colé S.A. (cédula 3-101-392010) |
+| `company_id=2` | Kermatec Dosimetric S.A. (cédula 3-101-857015) |
+
+## Uso
+
+Tras descomprimir en el directorio de skills:
+
+```bash
+# Colé S.A.
+python3 scripts/audit_invoices.py --company-id 1
+
+# Kermatec
+python3 scripts/audit_invoices.py --company-id 2
+
+# Ventana específica
+python3 scripts/audit_invoices.py --company-id 2 \
+    --date-from 2026-01-01 --date-to 2026-04-23 \
+    --output ~/kermatek_audit.xlsx
+
+# Override temporal (probar otra key sin editar archivo)
+python3 scripts/audit_invoices.py --api-key OTRA_KEY --company-id 2
+
+# Override por env (para scripts de CI o rotación sin tocar el .py)
+export ODOO_API_KEY="nueva_key_rotada"
+python3 scripts/audit_invoices.py --company-id 2
+```
+
+## Rotación de la key
+
+Cuando sea necesario rotar (por política interna, sospecha de filtración, cambio de personal con acceso):
+
+1. Generar nueva API key en Odoo: **Mi perfil → Cuenta → Claves API**.
+2. **Revocar la anterior** en la misma pantalla.
+3. Editar `scripts/audit_invoices.py`, localizar la línea:
+   ```python
+   API_KEY = "..."
+   ```
+   y sustituir por la nueva key.
+4. Verificar con una corrida simple: `python3 scripts/audit_invoices.py --company-id 2`.
+
+**Si la filtración es urgente y no hay tiempo para rotar:** exporta `ODOO_API_KEY=dummy` para que la constante embebida quede inutilizada hasta rotar formalmente.
+
+## Flujo obligatorio
+
+### Paso 1 — Parametrización inicial
+
+Antes de consultar Odoo, confirmar con el usuario:
+
+1. **Compañía objetivo:** `1` (Colé), `2` (Kermatec), o `ambas`.
+2. **Ventana temporal:** rango de fechas o "todo el histórico".
+3. **Nivel de auditoría:** `AB` (default), `ABC`, `ABCD`, o `ABCDE`.
+4. **Output:** XLSX + resumen en chat.
+
+Si el usuario dice "audita las facturas de X" sin más contexto, asumir **A+B, histórico completo de la compañía mencionada, XLSX + resumen**. Confirmar en una línea y proceder.
+
+**Diferencia con v1/v2:** no se pide la API key — está embebida. Si se desea rotación, ver sección correspondiente.
+
+### Paso 2 — Descubrimiento de compañías
+
+Verificar el tenant antes de filtrar. Si el VAT no coincide con lo esperado (Colé: 3-101-392010, Kermatec: 3-101-857015), detener y consultar al usuario.
+
+### Paso 3 — Ejecutar auditoría
+
+El script:
+
+1. Usa la API key embebida (a menos que se override por CLI o env).
+2. Descarga `account.move` filtradas por `company_id` y `move_type in ('out_invoice','out_refund')`.
+3. Normaliza en DataFrame.
+4. Calcula aging con fecha de hoy como ancla.
+5. Genera reporte de morosos.
+6. Corre los 15 detectores de hallazgos.
+7. Genera XLSX multi-hoja.
+8. Imprime resumen estructurado a stdout.
+
+### Paso 4 — Presentar resumen en chat
+
+Estructura obligatoria:
+
+```markdown
+## Resumen ejecutivo
+[Tabla: compañía | facturas | total | pendiente | % cobrado por moneda]
+
+## Aging CxC
+[Tabla de buckets: Vigente | 1-30 | 31-60 | 61-90 | 91-180 | >180]
+
+## Hallazgos (ordenados por criticidad: 🔴 → 🟠 → 🟡 → 🟢)
+
+## Siguiente paso recomendado
+```
+
+Adjuntar XLSX con `present_files`.
+
+### Paso 5 — Ofrecer profundización
+
+Preguntar si quiere profundizar en algún hallazgo o escalar a nivel C/D/E. **No ejecutar niveles adicionales sin confirmación.**
+
+## Catálogo de hallazgos
+
+Ver `references/hallazgos-catalogo.md` — códigos H0–H15, severidades 🔴🟠🟡🟢.
+
+## Validación fiscal (nivel C)
+
+Ver `references/fiscal-cr.md` — tarifas IVA, clave numérica Hacienda, consecutivo fiscal, exenciones.
+
+## Regla de cambios quirúrgicos (Karpathy)
+
+Este skill **detecta y reporta. No modifica data de Odoo.** No ejecuta `write`, `unlink` ni `create`. Si el usuario pide corregir, responder: "Este skill es de solo lectura. Para corregir [X] usa UI Odoo o un skill separado de escritura."
+
+## ⚠️ Checklist de seguridad operativa
+
+Antes de cada acción que toque el directorio del skill, preguntar:
+
+- [ ] ¿Voy a subir esto a un repositorio? → **Verificar .gitignore y hacer `git diff` antes de commit.**
+- [ ] ¿Voy a compartir con un colaborador? → **NO. Compartir solo una versión sin la key.**
+- [ ] ¿Voy a hacer backup a servicio externo? → **Verificar que el destino esté cifrado.**
+- [ ] ¿El backup automático de mi sistema incluye esta carpeta? → **Verificar destino del backup.**
+- [ ] ¿Hay otra persona con acceso físico o SSH a esta máquina? → **Considerar rotación periódica de la key.**
+
+Si cualquiera de los anteriores representa duda, **considerar migrar a v2** (key fuera del skill en `~/.config/`).

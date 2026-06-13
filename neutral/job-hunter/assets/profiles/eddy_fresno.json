@@ -1,0 +1,178 @@
+{
+  "candidate_id": "eddy_fresno",
+  "name": "Eddy Yoel Fresno Hernández",
+  "email": "fresnohernandez99@gmail.com",
+  "phone": "+506 6437-9826",
+  "linkedin": "https://www.linkedin.com/in/fresnohernandez99/",
+  "github": "https://github.com/fresnohernandez99",
+  "location": {
+    "city": "La Guácima",
+    "province": "Alajuela",
+    "country": "Costa Rica",
+    "country_code": "CR"
+  },
+  "citizenship": ["Cuba"],
+  "work_authorization": {
+    "country": "Costa Rica",
+    "status": "Solicitante de Refugio - DIMEX activo",
+    "us_e_verify_eligible": false,
+    "sponsorship_required": false,
+    "preferred_engagement": "contractor independiente desde Costa Rica, factura local"
+  },
+  "language": {
+    "spanish": "native",
+    "english": "C1"
+  },
+  "seniority": "senior",
+  "years_experience": 6,
+  "tech_stack": {
+    "primary": [
+      "Kotlin",
+      "Android SDK",
+      "Jetpack Compose",
+      "Kotlin Multiplatform (KMM)",
+      "Compose Multiplatform",
+      "Coroutines",
+      "Hilt",
+      "Room",
+      "Retrofit",
+      "WorkManager"
+    ],
+    "secondary": [
+      "WebRTC",
+      "XMPP",
+      "WebSocket",
+      "HLS",
+      "RTP",
+      "Ktor",
+      "Kotlinx Serialization",
+      "SwiftUI",
+      "Java"
+    ],
+    "backend": [
+      "Node.js",
+      "NestJS",
+      "Express",
+      "MongoDB",
+      "Mongoose",
+      "Socket.IO",
+      "JWT",
+      "Docker"
+    ],
+    "tertiary": [
+      "ReactJS",
+      "Redux",
+      "TypeScript",
+      "Material-UI",
+      "Swift",
+      "UIKit",
+      "Core Data",
+      "Flutter",
+      "Dart",
+      "BLoC"
+    ],
+    "domain_expertise": [
+      "real-time messaging",
+      "audio/video streaming",
+      "e-commerce mobile",
+      "fintech wallets",
+      "blockchain/Ethereum",
+      "QR validation"
+    ]
+  },
+  "notable_achievements": [
+    "Lideró desarrollo de toDus (mensajería Android, 2M+ DAU, llamadas audio/video con WebRTC, transferencia de archivos)",
+    "Construyó Z17Components (biblioteca UI multiplataforma usada en 4 productos del portafolio)",
+    "Cliente cross-platform Android/iOS para wallet Ethereum en GoCash con KMM + HDWallet + Web3",
+    "Desarrolló app cliente cross-platform en To2Fácil con KMM + Compose + SwiftUI",
+    "Verified - app de validación QR alineada al estándar EU Digital Green Certificate"
+  ],
+  "eligibility_geographies": [
+    "Costa Rica",
+    "Worldwide remote (anywhere)",
+    "LATAM remote (sin restricción de visa US)"
+  ],
+  "geographies_to_avoid": [
+    "Roles que requieran E-Verify",
+    "Roles US presenciales o que requieran visa de trabajo",
+    "Empresas con restricciones de origen cubano (sanciones OFAC podrían aplicar en algunos servicios financieros US)"
+  ],
+  "salary_expectation_usd": {
+    "monthly_min": 4200,
+    "monthly_max": 6000,
+    "annual_min": 50000,
+    "annual_max": 72000,
+    "currency_preference": "USD",
+    "rationale": "Rango Senior LATAM 2026 según benchmarks Mismo, Tecla, Hireinsouth, ajustado por especialización KMM senior + experiencia con producto a 2M+ usuarios"
+  },
+  "availability": {
+    "value": "pendiente_definir",
+    "default_when_undefined": "30 días desde firma de contrato"
+  },
+  "work_modality_preference": [
+    "remote",
+    "hybrid",
+    "on-site (Costa Rica only)"
+  ],
+  "education": {
+    "degree": "Ingeniería en Ciencias Informáticas",
+    "institution": "Universidad de las Ciencias Informáticas (UCI), La Habana, Cuba",
+    "years": "2018-2023"
+  },
+  "previous_roles": [
+    {
+      "company": "To2Fácil Inc.",
+      "role": "Desarrollador Frontend Móvil (KMM, part-time)",
+      "from": "Mar 2025",
+      "to": "Feb 2026",
+      "stack": ["Kotlin", "Swift", "KMM", "Compose", "SwiftUI", "Ethereum", "REST"]
+    },
+    {
+      "company": "Z17",
+      "role": "Desarrollador Android Senior",
+      "from": "Abr 2022",
+      "to": "Ene 2026",
+      "products": ["toDus", "Picta", "PorterClient", "Verified", "Z17Components"],
+      "stack": ["Kotlin", "Java", "Jetpack Compose", "Coroutines", "WebRTC", "HLS", "RTP", "WebSocket", "REST"]
+    },
+    {
+      "company": "GoCash",
+      "role": "Desarrollador Frontend Móvil (KMM)",
+      "from": "Ene 2025",
+      "to": "Feb 2025",
+      "stack": ["Kotlin Multiplatform", "Compose", "SwiftUI", "Ktor", "HDWallet", "Web3"]
+    },
+    {
+      "company": "Xtasis Tropical",
+      "role": "Desarrollador Backend (NestJS)",
+      "from": "Sep 2024",
+      "to": "Mar 2025",
+      "stack": ["NestJS", "MongoDB", "TypeScript", "microservicios", "Docker", "REST"]
+    }
+  ],
+  "cv_gaps_to_close_before_applying": [
+    "Disponibilidad de incorporación está en [pendiente — definir]; reemplazar por fecha concreta",
+    "Expectativa salarial está en [pendiente — definir]; usar el rango de salary_expectation_usd",
+    "Para roles con cliente US, agregar al cover letter: contratación como contractor independiente desde Costa Rica, sin sponsorship requerido"
+  ],
+  "search_queries": [
+    "\"Senior Android\" Kotlin remote LATAM 2026",
+    "\"Kotlin Multiplatform\" KMM remote 2026 hiring",
+    "\"Android developer\" Costa Rica remote",
+    "Senior Android Kotlin remote worldwide",
+    "Compose Multiplatform developer remote 2026",
+    "Android Kotlin Costa Rica site:linkedin.com",
+    "KMM developer remote site:getonbrd.com",
+    "\"Senior Android\" \"Costa Rica\" hiring 2026"
+  ],
+  "trigger_phrases": [
+    "tarea diaria de Eddy",
+    "ofertas para Eddy",
+    "buscar empleo Eddy",
+    "job hunt Eddy",
+    "briefing Eddy"
+  ],
+  "report_language": "es",
+  "first_run_date": "2026-05-06",
+  "notes": "Eddy fue presentado a Manuel como candidato de la red. Contactarlo solo después de revisar el reporte; no aplicar a ofertas en su nombre."
+}

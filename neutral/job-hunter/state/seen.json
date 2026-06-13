@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "candidates": {
+    "eddy_fresno": {
+      "reported_urls": [
+        {
+          "url": "https://www.getonbrd.com/jobs/desarrollo-mobile/mobile-android-developer-coderslab-io-remote",
+          "company": "Coderslab.io",
+          "title": "Android Mobile Developer",
+          "tier": "active",
+          "match_score": "high",
+          "first_reported_iso": "2026-05-06",
+          "last_verified_iso": "2026-05-06"
+        },
+        {
+          "url": "https://www.getonbrd.com/jobs/mobile-developer/desarrollador-android-nativo-kotlin-digitalproserver-remote",
+          "company": "Digitalproserver",
+          "title": "Desarrollador Android Nativo (Kotlin)",
+          "tier": "active",
+          "match_score": "very_high",
+          "first_reported_iso": "2026-05-06",
+          "last_verified_iso": "2026-05-06"
+        },
+        {
+          "url": "https://icerockdev.com/vacancies/android_developer_kmm/",
+          "company": "IceRock Development",
+          "title": "Android developer (Kotlin Multiplatform)",
+          "tier": "active",
+          "match_score": "very_high",
+          "first_reported_iso": "2026-05-06",
+          "last_verified_iso": "2026-05-06",
+          "warning": "Empresa rusa - auditar payment processing antes de invertir tiempo"
+        },
+        {
+          "url": "https://join.com/companies/corewillsoftcom/16068105-software-engineer-kotlin-multiplatform-android-development",
+          "first_reported_iso": "2026-05-06",
+          "last_verified_iso": "2026-05-06",
+          "company": "CoreWillSoft GmbH",
+          "title": "Software Engineer - Kotlin Multiplatform, Android Development",
+          "tier": "pending_eligibility",
+          "match_score": "high",
+          "compensation": "EUR 5000-6000/mes contractor",
+          "warning": "Sede Bonn Germany - confirmar si admite contractors fuera de UE antes de aplicar",
+          "posted_iso": "2026-04-27",
+          "verified_active_iso": "2026-05-06"
+        },
+        {
+          "url": "https://news.ycombinator.com/item?id=47225096",
+          "first_reported_iso": "2026-05-06",
+          "last_verified_iso": "2026-05-06",
+          "company": "Pushscroll",
+          "title": "Full-Stack Mobile Engineer (KMP)",
+          "tier": "cold_outreach",
+          "match_score": "very_high",
+          "compensation": "a definir",
+          "warning": "Listing visible en HN Mar 2026 y Dec 2025 - no confirmado en HN May 2026. Timezone GMT-3 a GMT+4. CR es GMT-6. Contactar contact@pushscroll.com mencionando HN antes de invertir tiempo",
+          "contact_email": "contact@pushscroll.com",
+          "verified_site_active_iso": "2026-05-06"
+        }
+      ],
+      "applied_urls": [],
+      "expired_urls": [
+        {
+          "url": "https://smashcr.applytojob.com/apply/jobs/details/gWDtIqsH2H",
+          "company": "SMASH",
+          "title": "Senior Android Developer (Kotlin) P-081",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Removida del listado actual de smashcr"
+        },
+        {
+          "url": "https://www.realworkfromanywhere.com/jobs/engineering-template-livekit-3491",
+          "company": "LiveKit",
+          "title": "Senior SDK Engineer Android",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Página marca Job Expired, apply-before 03-Ene-2026"
+        },
+        {
+          "url": "https://www.getonbrd.com/jobs/mobile-developer/senior-mobile-engineer-kotlin-apply-digital-latam-remote",
+          "company": "Apply Digital Latam",
+          "title": "Senior Mobile Engineer (Android) Contract",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Get on Board: Closed job - No longer accepting applications"
+        },
+        {
+          "url": "https://himalayas.app/companies/imagemaker/jobs/android-mobile-developer-remote",
+          "company": "Imagemaker",
+          "title": "Android Mobile Developer",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Redirige a listado general de Himalayas - removida"
+        },
+        {
+          "url": "https://www.getonbrd.com/jobs/mobile-developer/android-developer-sr-global-mobility-apex-s-a-remote-28e6",
+          "company": "Grupo Mariposa",
+          "title": "Android Developer Sr",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Cerrada Y geografía no incluye Costa Rica"
+        },
+        {
+          "url": "https://join.agileengine.com/job/senior-android-engineer-indeed/",
+          "company": "AgileEngine (cliente: Indeed)",
+          "title": "Senior Android Engineer ID62593",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Activa pero geografía limitada a AR/BR/CO/GT/MX - Costa Rica no elegible"
+        },
+        {
+          "url": "https://www.remocate.app/jobs/senior-android-engineer-4",
+          "verified_expired_iso": "2026-05-06",
+          "reason": "Wrike: hybrid 2-3 dias en hubs San Diego/Prague/Dublin/Nicosia/Tallinn - Costa Rica no incluida"
+        }
+      ],
+      "last_run_iso": "2026-05-06",
+      "total_runs": 1
+    }
+  }
+}
