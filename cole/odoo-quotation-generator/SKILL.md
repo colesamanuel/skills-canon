@@ -68,7 +68,7 @@ PV: $XXX.XX (precio de lista Colé)
 Buscar el modelo **exactamente** como aparece en `references/price-list.md`. No por aproximación.
 - ❌ Mal: usuario dice "Ludlum 26" → asumir "Ludlum 26-1".
 - ✅ Bien: usuario dice "Ludlum 26" → responder: *"¿Modelo específico? Tengo 25, 26-1, 26-1C. No cotizo hasta confirmar."*
-- Modelos propensos a confusión: Ludlum 26-1 vs 25 vs 9DP; Radcal AGMS-D+ vs AGMS-D; Diagnomatic Pro-MAM Compress vs Pro-MAM Resolution; IBA Dose-1 vs DoseWatch vs MatriXX.
+- Modelos propensos a confusión: Ludlum 26-1 vs 25 vs 9DP; Radcal AGMS-D+ vs AGMS-D; Diagnomatic Pro-MAM Compress vs Pro-MAM Resolution; IBA Dose-1 vs DoseWatch vs MatriXX; LG 27HJ713C (Negro) vs 27HJ712C (Blanco) vs 27HS713C.
 
 ### Check 2 — Verificación cruzada proveedor ↔ descuento
 Antes de calcular `costo = list × (1 − descuento)`, confirmar que el proveedor declarado en el catálogo coincide con el descuento aplicado. Matriz de verificación:
@@ -346,6 +346,85 @@ call("sale.order","message_post",[[ORDER_ID]],{
 
 Patch alternativo permanente al template ID 22: cambiar `email_from` a literal `"Ing. Manuel Rubio <m.rubio@colecr.com>"` y `reply_to` a `"colesa.manuel@gmail.com"`. Eliminaría la necesidad del workaround manual. Requiere aprobación expresa del Ing. Rubio antes de modificar el template del sistema.
 
+## REGLA #7 — Formato canónico de notas del `sale.order` (campo `note`)
+
+**El campo `note` de TODA cotización en Odoo usa SIEMPRE este formato HTML, idéntico en
+estructura al de COT-1950.** No improvisar formato ni estilo entre cotizaciones. Solo se
+sustituye el contenido variable (filas de condiciones comerciales y especificaciones técnicas
+del producto cotizado). El pie (datos Colé + firma) y los tokens de estilo son **fijos**.
+
+### Estructura obligatoria (en este orden)
+
+1. Encabezado **"Condiciones Comerciales"** + tabla de 2 columnas con estas 8 filas, en este
+   orden: Moneda · Forma de pago · Tiempo de entrega · Lugar de entrega · Validez de la oferta ·
+   Garantía · Impuestos · Aprobación regulatoria. Si un dato no aplica, indicarlo
+   explícitamente — **no borrar la fila**.
+2. Encabezado **"Especificaciones Técnicas — [MODELO]"** + lista `<ul>` con specs verificadas
+   del datasheet del fabricante. **NUNCA inventar specs**; si falta un dato →
+   "pendiente confirmación con fabricante".
+3. (Opcional) Notas técnicas adicionales solo si el caso lo amerita (ej. conectividad,
+   hardware gráfico). Omitir si no aplican.
+4. **Pie fijo**: datos de Colé S.A. (cédula 3-101-392010, dirección, teléfonos, email, web) +
+   firma "Ing. Manuel Rubio, MSc — Presidente — Colé S.A."
+
+### Tokens de estilo fijos
+- Fuente Arial, 11px; color de texto `#363b47`.
+- Azul corporativo de encabezados y bordes de título: `#3155E2`.
+- Tablas: `border-collapse:collapse`, borde `1px solid #c2c5cc`, filas alternas `#f7f7ff`.
+- Pie en 10px; razón social en `#3155E2`.
+
+### Plantilla HTML (rellenar solo los campos entre ⟦⟧)
+
+```html
+<div style="font-family: Arial, sans-serif; font-size: 11px; color:#363b47;">
+<h3 style="color:#3155E2; border-bottom:2px solid #3155E2; padding-bottom:4px; margin-bottom:8px;">Condiciones Comerciales</h3>
+<table style="width:100%; border-collapse:collapse; margin-bottom:10px;">
+  <tr style="background:#f7f7ff;"><td style="border:1px solid #c2c5cc; padding:6px; width:35%;"><b>Moneda</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦Dolares de los Estados Unidos de America (USD).⟧</td></tr>
+  <tr><td style="border:1px solid #c2c5cc; padding:6px;"><b>Forma de pago</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦forma de pago aprobada por el Ing. Rubio⟧</td></tr>
+  <tr style="background:#f7f7ff;"><td style="border:1px solid #c2c5cc; padding:6px;"><b>Tiempo de entrega</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦tiempo de entrega confirmado⟧</td></tr>
+  <tr><td style="border:1px solid #c2c5cc; padding:6px;"><b>Lugar de entrega</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦lugar de entrega⟧</td></tr>
+  <tr style="background:#f7f7ff;"><td style="border:1px solid #c2c5cc; padding:6px;"><b>Validez de la oferta</b></td><td style="border:1px solid #c2c5cc; padding:6px;">30 dias naturales a partir de la fecha de emision.</td></tr>
+  <tr><td style="border:1px solid #c2c5cc; padding:6px;"><b>Garantia</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦garantia segun fabricante y producto⟧</td></tr>
+  <tr style="background:#f7f7ff;"><td style="border:1px solid #c2c5cc; padding:6px;"><b>Impuestos</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦tratamiento de IVA / CAByS — verificado para el producto⟧</td></tr>
+  <tr><td style="border:1px solid #c2c5cc; padding:6px;"><b>Aprobacion regulatoria</b></td><td style="border:1px solid #c2c5cc; padding:6px;">⟦FDA / IEC / EMB segun aplique⟧</td></tr>
+</table>
+
+<h3 style="color:#3155E2; border-bottom:2px solid #3155E2; padding-bottom:4px; margin-bottom:8px;">Especificaciones Tecnicas &mdash; ⟦MODELO⟧</h3>
+<ul style="margin:0 0 10px 18px; padding:0;">
+  <li>⟦spec 1 verificada del datasheet⟧</li>
+  <li>⟦spec 2 ... agregar las que apliquen⟧</li>
+</ul>
+
+<hr style="border:none; border-top:1px solid #c2c5cc; margin:14px 0;">
+<table style="width:100%; font-size:10px; color:#363b47;">
+  <tr>
+    <td style="vertical-align:top;">
+      <b style="color:#3155E2;">INVERSIONES E IMPORTACIONES COLE S.A.</b><br>
+      Cedula Juridica: 3-101-392010<br>
+      Del BCR 125m Este, Calle de Piedra, Zapote, San Jose, Costa Rica<br>
+      Tel: (506) 2285-3211 / 2285-9561 &mdash; Cel/WhatsApp: (506) 8395-7547<br>
+      colesa.manuel@gmail.com &mdash; www.colecr.com
+    </td>
+    <td style="vertical-align:top; text-align:right;">
+      <b>Ing. Manuel Rubio, MSc</b><br>
+      Presidente &mdash; Cole S.A.
+    </td>
+  </tr>
+</table>
+</div>
+```
+
+### Aplicación en Odoo
+- Tras crear el `sale.order`, escribir el campo con `call("sale.order","write",[[ORDER_ID],{"note": <html>}])`.
+- El campo `note` se imprime como "Términos y condiciones" en el PDF de la cotización.
+
+### Reglas duras asociadas
+- El pie (datos Colé + firma) y los tokens de estilo son **fijos**: no modificar entre cotizaciones.
+- Las 8 filas de Condiciones Comerciales son **obligatorias**; si un dato no aplica, indicarlo, no borrar la fila.
+- Las especificaciones técnicas provienen **siempre** del datasheet del fabricante en el proyecto.
+- **Prohibido copiar specs, código CAByS, exención de IVA o años de garantía de un modelo distinto**
+  (error documentado: COT-1950 traía specs/CAByS del monitor mamográfico 31HN713D; no reutilizar en otros modelos).
+
 ## Datos de la Empresa
 
 ```
@@ -391,6 +470,7 @@ Web: www.colecr.com
 8. **Buscar T/C BCCR** si la cotización es en CRC
 9. **Generar cotización** con estructura obligatoria y condiciones aprobadas
    - Vincular `opportunity_id` al `sale.order` (siempre, ya que Odoo es default)
+   - **Aplicar el campo `note` con el formato canónico de REGLA #7** (idéntico a COT-1950)
    - Solo si el usuario pidió DOCX/Markdown explícitamente, generar archivo adicional
 10. **Si el usuario pide enviar la cotización al cliente desde Odoo** → aplicar **REGLA #6**.
     NO usar `mail.template.send_mail` directo (bug de SPF/DKIM mismatch). Crear `mail.mail` manualmente con `email_from=m.rubio@colecr.com` y `mail_server_id=11`.
@@ -506,6 +586,7 @@ lead_id = call("crm.lead", "create", [{
    - `opportunity_id: lead_id` ← **OBLIGATORIO — vincular a la oportunidad CRM creada**
    - `order_line`: `[(0,0,{product_id, name, product_uom_qty, price_unit, tax_id:[(5,0,0)]})]`
    - `tax_id: [(5,0,0)]` en cada línea = sin impuestos. IVA solo si se pide.
+   - `note`: HTML con el **formato canónico de REGLA #7** (idéntico a COT-1950).
 4. **Leer resultado** — `sale.order` > `read` → número COT-XXXX, totales, estado
 5. **Mostrar resumen:**
 ```
@@ -525,7 +606,7 @@ Estado:   Borrador
 
 - Productos servicio: `type: 'service'` (no `consu`)
 - Sin IVA default: `taxes_id: [(5,0,0)]` + `tax_id: [(5,0,0)]`
-- Campo `note` = "Términos y condiciones" en impresión
+- Campo `note` = "Términos y condiciones" en impresión. **Usar SIEMPRE el formato de REGLA #7.**
 - Siempre dejar en `draft`. No confirmar automáticamente.
 
 ## Moneda y Tipo de Cambio
@@ -589,6 +670,7 @@ Estado:   Borrador
 - **No asumir partner_id por primer match.** Si `search_read` devuelve ≥ 2 candidatos para el mismo cliente institucional, listar todos y preguntar al Ing. Rubio.
 - **No confirmar cotización automáticamente.** Siempre dejar en `state: draft`. El usuario decide cuándo pasa a `sent` o `sale`.
 - **No aplicar ×1.40 sobre productos marca Colé S.A. ni LG Electronics Medical.** Su PV ya es final.
+- **El campo `note` usa SIEMPRE el formato canónico de REGLA #7** (idéntico a COT-1950). No improvisar formato.
 - **Si el correo de origen (Gmail) tiene thread multi-mensaje, leer `plaintextBody` completo** del mensaje del cliente antes de identificar hospital/departamento. Consistencia con regla equivalente del skill `gmail-briefing` (v1.2+).
 - **No reutilizar partner_id de memoria sin verificación cruzada.** Los IDs conocidos (HCG 46, HSJD 29, Dpto PR 131, Banco de Sangre 66) deben confirmarse contra `search_read` actual antes de usarse — la base puede haber cambiado.
 - **No prometer DAP/DDP puerta a puerta, courier completo ni trámite aduanal incluido en exportaciones drop-shipment internacional sin aprobación expresa del Ing. Rubio (REGLA #5).** Flete estándar solo cubre fábrica → aduana del país receptor.
