@@ -1,25 +1,34 @@
 # Skills Canon — Ing. Manuel Rubio, MSc
 
-**Fuente única de verdad** de las skills propias (perfil §6). Exportadas desde Claude.ai
-el 13/06/2026 — set completo de 32, el más actualizado de los 4 ecosistemas detectados
-(Claude.ai, Gemini CLI, Gemini Antigravity, OneDrive).
+Fuente única de verdad de las skills personales y corporativas. El canon contiene
+52 skills en una estructura plana: cada directorio de primer nivel es una skill y
+debe contener `SKILL.md`.
 
-## Estructura (perfil §4.4 — separación de identidades)
+## Regla de operación
 
-| Carpeta | Identidad | Contenido |
-|---|---|---|
-| `cole/` | **Colé S.A.** (corporativa) | Protección radiológica, imagenología, Odoo, cotizaciones, marca, marketing, proveedores. Firma: Presidente Colé S.A. |
-| `patrimonio/` | **Neutral / persona física** | Inversión: fideicomiso, hipoteca, riesgo crediticio, bolsa, alquiler vacacional. NUNCA marca Colé. |
-| `personal/` | Personal | Ifá / Isẹ̀ṣe. |
-| `neutral/` | Genérica | Herramientas transversales sin marca (SEO, copy, wiki, web, empleo, exámenes). |
+1. Crear o actualizar skills únicamente en este repositorio.
+2. Hacer que Claude trabaje directamente sobre esta carpeta, no sobre copias de sesión.
+3. Exponer las skills a Codex y Gemini mediante enlaces de directorio.
+4. No copiar manualmente versiones entre `.codex`, `.gemini` y Claude.
+5. Confirmar cambios con Git después de validar las skills.
 
-> La separación cole/ vs patrimonio/ es DURA (riesgo fiscal y reputacional). El resto es
-> propuesta revisable: reubicá lo que no encaje con tu criterio.
+## Automatización local
 
-## Regla de operación (fuente única)
-1. Toda edición de una skill se hace AQUÍ primero.
-2. Desde aquí se distribuye a la herramienta donde la uses (Claude.ai, Gemini, Claude Code).
-3. Las copias en .gemini\, .codex\, OneDrive\ y Downloads quedan OBSOLETAS tras migrar.
+`tools/Sync-Skills.ps1` crea los enlaces faltantes hacia `.codex\skills` y
+`.gemini\skills`. No reemplaza carpetas físicas ni corrige conflictos de forma
+automática. Se ejecuta al iniciar sesión mediante la tarea `Skills Canon Sync`.
+`sync-exclusions.json` conserva en el canon las skills específicas de Claude o que
+duplican capacidades integradas, pero evita enlazarlas a consumidores incompatibles.
 
-## ⚠️ SECRETOS — LEER ANTES DE HACER git push
-Ver `SECRETOS-LEER-PRIMERO.md`. Cinco archivos contienen la API key de Odoo en texto plano.
+La separación entre operaciones de Colé S.A. y patrimonio personal sigue siendo
+obligatoria aunque la estructura sea plana. Las reglas de identidad se encuentran
+en cada skill, especialmente `cole-brand-identity`.
+
+## Secretos
+
+Las credenciales no se versionan. Los flujos actuales usan:
+
+- `ODOO_API_KEY`
+- `EMAIL_REPLY_APPS_SCRIPT_SECRET`
+
+Leer `SECRETOS-LEER-PRIMERO.md` antes de publicar o rotar credenciales.

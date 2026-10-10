@@ -1,0 +1,30 @@
+{
+  "codex": [
+    "consolidate-memory",
+    "docx",
+    "import-memory",
+    "morning",
+    "pdf",
+    "pptx",
+    "schedule",
+    "setup-claude",
+    "setup-cowork",
+    "skill-creator",
+    "web-artifacts-builder",
+    "xlsx"
+  ],
+  "gemini": [
+    "consolidate-memory",
+    "docx",
+    "import-memory",
+    "morning",
+    "pdf",
+    "pptx",
+    "schedule",
+    "setup-claude",
+    "setup-cowork",
+    "skill-creator",
+    "web-artifacts-builder",
+    "xlsx"
+  ]
+}
